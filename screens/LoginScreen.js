@@ -6,9 +6,10 @@ const ovalWidth = width * 0.5
 
 export default function LoginScreen({navigation}) {
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.titleText}>School Security</Text>
-      <Text style={styles.loginInstructions}>Login to your Account</Text>
+    <View style={styles.container}>
+    <Text style={styles.titleText}>School Security</Text>
+    <Text style={styles.loginInstructions}>Login to your Account</Text>
+    <KeyboardAvoidingView behavior="padding">
         <View style={styles.inputContainer}>
           <TextInput
             placeholder='Email'
@@ -26,7 +27,9 @@ export default function LoginScreen({navigation}) {
           >
           </TextInput>
         </View>
-        <View style={styles.buttonContainer}>
+
+    </KeyboardAvoidingView>
+    <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={() => {}} style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
@@ -37,8 +40,8 @@ export default function LoginScreen({navigation}) {
       <View style={styles.option2}><Text>Facebook</Text></View>
       <View style={styles.option3}><Text>Twitter</Text></View>
     </View>
-    <Text>Don't have an account?</Text><TouchableOpacity><Text style={styles.signUpText}>Sign Up</Text></TouchableOpacity>
-    </KeyboardAvoidingView>
+    <Text>Don't have an account?</Text><TouchableOpacity onPress={() => navigation.navigate("Register")}><Text style={styles.signUpText}>Sign Up</Text></TouchableOpacity>
+    </View>
 
   )
 }
@@ -46,22 +49,22 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    marginTop: -50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    width: width
+    width: width,
   },
   titleText: {
     textAlign: 'center',
-    paddingBottom: 135,
     fontSize: 24,
-    color: 'black'
+    color: 'black',
+    
+    marginBottom: 125
   },
   loginInstructions:{
     justifyContent: 'flex-start',
     paddingRight: 145,
-    paddingBottom: 5 
+    paddingBottom: 5
 },
   inputContainer:{
     width: width * .75,
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
   },
   otherLoginContainer:{
     marginTop: 50,
-    marginBottom: 50,
+    marginBottom: 150,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
@@ -121,6 +124,6 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: 'blue',
-    paddingTop: 5
+    paddingTop: 5,
   }
 })
