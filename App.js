@@ -1,15 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+// Import our Screens
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import SplashScreen from './screens/SplashScreen';
+
+const Stack = createNativeStackNavigator();
+
+const Auth = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <Stack.Navigator initialRouteName='LoginScreen'>
+        <Stack.Screen name="Login" component={LoginScreen}options={{headerShown: false}} />
+      </Stack.Navigator>
   );
 }
 
+const App = () => {
+  return(
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SplashScreen">
+        {/* SplashScreen which will come once for 5 Seconds */}
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          // Hiding header for Splash Screen
+          options={{headerShown: false}}
+        />
+        {/* Auth Navigator: Include Login and Signup */}
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{headerShown: false}}
+        />
+        {/* Navigation Drawer as a landing page */}
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          // Hiding header for Navigation Drawer
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,3 +54,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+export default App;
