@@ -1,10 +1,42 @@
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, TouchableOpacity, Dimensions, Image } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { auth } from '../firebase'
 
 const {height, width} = Dimensions.get('window')
 const ovalWidth = width * 0.5
 
-export default function LoginScreen({navigation}) {
+const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+ /**
+  * * The useEffect is used here to listen for the login change
+  * * Once its changed and successfully logged in, then navigate
+  * * to the Home Page.
+  */
+  useEffect(() => {
+    const unsubcribe = auth.onAuthStateChanged(user => {
+      if (user){
+        navigation.navigate("HomeScreen");
+      }
+    })
+
+    return unsubcribe;
+  }, [])
+
+  /**
+   * * This is our handler for when the login button is pressed.
+   * * Once its pressed, we will call Firebase to authenticate the user.
+   */
+  const handleLogin = () => {
+    auth.
+    signInWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+    })
+    .catch(error => alert(error.message))
+  }
+
   return (
     <View style={styles.container}>
     <Text style={styles.titleText}>School Security</Text>
@@ -13,15 +45,15 @@ export default function LoginScreen({navigation}) {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder='Email'
-            // value={ }
-            // onChangeText={text => }
+            value={ email }
+             onChangeText={text => setEmail(text)}
             style={styles.input}
           >
           </TextInput>
           <TextInput
             placeholder='Password'
-            // value={ }
-            // onChangeText={text => }
+             value={ password }
+             onChangeText={text => setPassword(text)}
             style={styles.input}
             secureTextEntry
           >
@@ -30,10 +62,10 @@ export default function LoginScreen({navigation}) {
 
     </KeyboardAvoidingView>
     <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => {}} style={styles.button}>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-        </View>
+    </View>
         <Text>-Or Sign in With-</Text>
     <View style={styles.otherLoginContainer}>
       <View style={styles.option1}><Text>Google</Text></View>
@@ -45,6 +77,8 @@ export default function LoginScreen({navigation}) {
 
   )
 }
+
+export default LoginScreen
 
 const styles = StyleSheet.create({
   container:{

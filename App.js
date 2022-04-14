@@ -43,7 +43,7 @@ const App = () => {
           name="HomeScreen"
           component={HomeScreen}
           // Hiding header for Navigation Drawer
-          options={{headerShown: false}}
+          options={{headerShown: false, gestureEnabled: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
